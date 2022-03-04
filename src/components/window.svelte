@@ -1,6 +1,7 @@
 <script>
     export let id;
     export let title;
+    export let isFocussed;
     export let x = 10;
     export let y = 50;
     export let width = 600;
@@ -10,21 +11,31 @@
     // export let resizeX = true;
     // export let resizeY = true;
     export let onClose;
+    export let onFocus;
 
     const mouseBuffer = 5;
 
     let calculatedWidth = width;
     let calculatedHeight = height;
-
+    
+    let isMousePressed = false;
     let borderMouseState = 0;
     let headerMouseState = 0;
     let maximizeState = "inherit";
     
+    const onMouseDown = () => {
+        isMousePressed = true;
+    }
+
     const onMouseUp = () => {
         headerMouseState = 0;
         borderMouseState = 0;
+        isMousePressed = false;
     }
+
     const onBorderMouseDown = (event) => {
+        onFocus();
+
         if (event.clientX >= x && event.clientX <= x + calculatedWidth && Math.abs(event.clientY - y) <= mouseBuffer) {
             borderMouseState = 1;
         } else if (event.clientX >= x && event.clientX <= x + calculatedWidth && Math.abs(event.clientY - (y + calculatedHeight)) <= mouseBuffer) {
@@ -35,7 +46,13 @@
             borderMouseState = 4;
         }
     }
+
     const onMouseMove = (event) => {
+        // If another window is currently being dragged
+        if (!isFocussed && isMousePressed) {
+            return;
+        }
+
         if (borderMouseState != 0) {
             if (borderMouseState == 1) {
                 // top
@@ -121,7 +138,8 @@
                 }
             }
         }
-    };
+    }
+
     const switchMaximize = () => {
         if (maximizeState == 0) {
             maximizeState = 1;
@@ -138,9 +156,9 @@
     }
 </script>
 
-<svelte:window on:mousemove={onMouseMove} on:mouseup={onMouseUp} />
-<div class="container" on:mousedown={onBorderMouseDown} style="left: {x}px; top: {y}px; width: {calculatedWidth}px; height: {calculatedHeight}px;">
-    <div class="header" on:mousedown={() => headerMouseState = 1}>
+<svelte:window on:mousemove={onMouseMove} on:mousedown={onMouseDown} on:mouseup={onMouseUp} />
+<div class="container" on:mousedown={onBorderMouseDown} style="z-index: {isFocussed ? '100' : '10'}; left: {x}px; top: {y}px; width: {calculatedWidth}px; height: {calculatedHeight}px;">
+    <div class="header {isFocussed ? 'focus' : ''}" on:mousedown={() => headerMouseState = 1}>
         <span class="title"> ID: {id} / {title} </span>
         <div class="header_icons">
             <svg height="20" stroke="white" width="20" class="minimize_icon">
@@ -168,7 +186,12 @@
 <style>
     :root {
         --header-height: 2rem;
-        --header-color: #424242;
+
+        --header-color: #fafafa86;
+        --header-background-color: #6b6b6b69;
+
+        --header-focus-color: #fafafa;
+        --focus-header-background-color: #424242;
     }
 
     .container {
@@ -179,8 +202,8 @@
     }
 
     .header {
-        background-color: var(--header-color);
-        color: #fafafa;
+        background-color: var(--header-background-color);
+        color: var(--header-color);
         padding: 1px;
         display: flex;
         border-radius: 5px 5px 0 0;
@@ -188,6 +211,11 @@
         height: var(--header-height);
         align-items: center;
         border-bottom: 1px solid #262626;
+    }
+
+    .header.focus {
+        background-color: var(--focus-header-background-color);
+        color: var(--header-focus-color);
     }
 
     .title {
