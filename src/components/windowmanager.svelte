@@ -1,9 +1,8 @@
 <script>
     import TextEditor from './applications/texteditor.svelte';
 
-    let open_windows = [
-        // {type: "texteditor", title: "Text Editor", data: {content: "This is a text editor"}}
-    ];
+    let open_windows = [];
+    let focussed_window_id;
 
     const openApplication = (event) => {
         // title
@@ -16,18 +15,22 @@
             title: event.detail.title,
             data: event.detail.data
         });
-        
+
         open_windows = open_windows;
+        focussed_window_id = open_windows.length - 1;        
     }
     const onClose = (idx) => {
         open_windows.pop(idx);
         open_windows = open_windows;
+        focussed_window_id = focussed_window_id.length - 1;
     }
 </script>
 
 <svelte:window on:openapplication={openApplication} />
-{#each open_windows as ow, idx}
-	{#if ow.type === "texteditor"}
-		<TextEditor id={idx} title={ow.title} data={ow.data} onClose={() => onClose(idx)}/>
-	{/if}
-{/each}
+<div class="window_manager">
+    {#each open_windows as ow, idx}
+        {#if ow.type === "texteditor"}
+            <TextEditor id={idx} isFocussed={focussed_window_id == idx} title={ow.title} data={ow.data} onClose={() => onClose(idx)} onFocus={() => focussed_window_id = idx} />
+        {/if}
+    {/each}
+</div>

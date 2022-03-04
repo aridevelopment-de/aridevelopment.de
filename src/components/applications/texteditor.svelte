@@ -2,12 +2,14 @@
     import Window from '../window.svelte';
 
     export let id;
+    export let isFocussed;
     export let title;
     export let data;
     export let onClose;
+    export let onFocus;
 </script>
 
-<Window id={id} title={title} width={400} height={500} onClose={onClose}>
+<Window {id} {isFocussed} {title} width={400} height={500} {onClose} {onFocus}>
     <textarea id="textarea">{data.content}</textarea>
 </Window>
 
