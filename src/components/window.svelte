@@ -159,7 +159,7 @@
 <svelte:window on:mousemove={onMouseMove} on:mousedown={onMouseDown} on:mouseup={onMouseUp} />
 <div class="container" on:mousedown={onBorderMouseDown} style="z-index: {isFocussed ? '100' : '10'}; left: {x}px; top: {y}px; width: {calculatedWidth}px; height: {calculatedHeight}px;">
     <div class="header {isFocussed ? 'focus' : ''}" on:mousedown={() => headerMouseState = 1}>
-        <span class="title"> ID: {id} / {title} </span>
+        <span class="title">{title}</span>
         <div class="header_icons">
             <svg height="20" stroke="white" width="20" class="minimize_icon">
                 <line stroke-width="2" x1="2" x2="18" y1="15" y2="15"></line>
@@ -219,9 +219,14 @@
     }
 
     .title {
+        font-style: italic;
         font-size: 18px;
         margin-left: 12px;
         flex: 1;
+    }
+
+    .header.focus .title {
+        font-style: normal;
     }
 
     .header_icons {

@@ -1,6 +1,6 @@
 <script>
 	import Desktop from './components/desktop.svelte';
-	import WindowManager from './components/windowmanager.svelte';
+	import WindowManager from './components/manager/windowmanager.svelte';
 
 	document.body.hovering_windows = [];
 </script>
