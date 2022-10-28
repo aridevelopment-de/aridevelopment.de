@@ -1,5 +1,6 @@
 <script>
     import TextEditor from '../applications/texteditor.svelte';
+    import Console from '../applications/console.svelte';
     import { custom_event } from 'svelte/internal';
 
     const MAX_WINDOWS = 5;
@@ -51,6 +52,9 @@
         {#if ow != null}
             {#if ow.type === "texteditor"}
                 <TextEditor id={idx} isFocussed={focussed_window_id == idx} title={ow.title} data={ow.data} onClose={() => onClose(idx)} onFocus={() => focussed_window_id = idx} />
+            {/if}
+            {#if ow.type === "console"}
+                <Console id={idx} isFocussed={focussed_window_id == idx} title={ow.title} data={ow.data} onClose={() => onClose(idx)} onFocus={() => focussed_window_id = idx} />
             {/if}
         {/if}
     {/each}
