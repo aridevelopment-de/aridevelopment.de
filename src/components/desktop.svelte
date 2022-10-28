@@ -1,11 +1,13 @@
 <script>
-    import ApplicationManager from './applicationmanager.svelte';
+    import ApplicationManager from './manager/applicationmanager.svelte';
+    import MessageManager from './manager/messagemanager.svelte';
 </script>
 
 <div class="desktop">
     <img src="tsumiki.png" alt="tsumiki" id="tsumiki" class="no_us" draggable="false">
     <ApplicationManager />
     <slot />
+    <MessageManager />
 </div>
 
 <style>
