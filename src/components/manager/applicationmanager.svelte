@@ -1,13 +1,23 @@
 <script>
-    import { custom_event } from 'svelte/internal';
+    import { custom_event, onMount } from 'svelte/internal';
+
+    const ICON_SIZE = 100;
 
     let applications = [
-        {name: "Editor", type: "texteditor", img: "/texteditor.png", id: "editor", start: {x: 0, y: 0}, data: {content: "Hello World!"}}
+        {name: "l1nk-tr33", type: "texteditor", img: "/texteditor.png", id: "url-tree", start: {x: 0 * ICON_SIZE, y: 0 * ICON_SIZE}, data: {content: "GitHub: https://github.com/aridevelopment-de\nDiscord: https://aridevelopment.de/dc\n"}},
+        {name: "cmd", type: "console", img: "/cmd.png", id: "console-entry", start: {x: 1 * ICON_SIZE, y: 0 * ICON_SIZE}, data: null},
     ];
+
+    onMount(() => {
+        for (let app of applications) {
+            let target = document.getElementById(app.id);
+            target.style.left = app.start.x + "px";
+            target.style.top = app.start.y + "px";
+        }
+    });
 
     let ref;
     let draggedIdx = -1;
-    const ICON_SIZE = 80;
 
     const onDragStart = (idx, event) => {
         draggedIdx = idx;
@@ -38,7 +48,6 @@
             newTop = Math.round(newTop / ICON_SIZE);
             newLeft = Math.max(0, newLeft);
             newTop = Math.max(0, newTop);
-
             newLeft *= ICON_SIZE;
             newTop *= ICON_SIZE;
             
