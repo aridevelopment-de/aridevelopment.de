@@ -2,6 +2,7 @@
     import TextEditor from '../applications/texteditor.svelte';
     import Console from '../applications/console.svelte';
     import { custom_event } from 'svelte/internal';
+	import Url from '../applications/url.svelte';
 
     const MAX_WINDOWS = 5;
     let open_windows = [];
@@ -55,6 +56,9 @@
             {/if}
             {#if ow.type === "console"}
                 <Console id={idx} isFocussed={focussed_window_id == idx} title={ow.title} data={ow.data} onClose={() => onClose(idx)} onFocus={() => focussed_window_id = idx} />
+            {/if}
+            {#if ow.type === "url"}
+                <Url data={ow.data} />
             {/if}
         {/if}
     {/each}

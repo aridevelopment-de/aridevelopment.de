@@ -39,6 +39,30 @@
 				start: { x: 1 * ICON_SIZE, y: 0 * ICON_SIZE },
 				data: null,
 			},
+			{
+				name: "MyAnimeTab",
+				type: "url",
+				img: "/url.png",
+				id: "myanimetab",
+				start: {x: 2 * ICON_SIZE, y: 3 * ICON_SIZE},
+				data: { url: "https://github.com/aridevelopment-de/myanimetab" }
+			},
+			{
+				name: "datetimeparser",
+				type: "url",
+				img: "/url.png",
+				id: "datetimeparser",
+				start: {x: 3 * ICON_SIZE, y: 3 * ICON_SIZE},
+				data: { url: "https://github.com/aridevelopment-de/datetimeparser" }
+			},
+			{
+				name: "aridevelopment.de",
+				type: "url",
+				img: "/url.png",
+				id: "aridevelopment.de",
+				start: {x: 4 * ICON_SIZE, y: 3 * ICON_SIZE},
+				data: { url: "https://github.com/aridevelopment-de/aridevelopment.de" }
+			},
 		];
 		files.set(apps);
 
