@@ -24,8 +24,6 @@
 			ref.innerHTML = "";
 		},
 		echo: (args) => {
-			// check if args end with something like " > file.txt"
-
 			ref.innerHTML += args.map((a) => a.replace(/"/g, "")).join(" ");
 		},
 		whoami: (args) => {
@@ -82,6 +80,21 @@
 				}
 			}
 		},
+		rm: (args) => {
+			if (args.length === 0) {
+				ref.innerHTML += "rm: missing file operand";
+			} else {
+				const name = args[0];
+				const file = availableFiles.find((f) => f.name === name);
+				if (file) {
+					files.update((f) => {
+						return f.filter((f) => f.name !== name);
+					});
+				} else {
+					ref.innerHTML += `rm: cannot remove '${name}': No such file or directory`;
+				}
+			}
+		}
 	};
 
 	const onCommand = (command) => {
@@ -129,5 +142,15 @@
 		flex: 2 2;
 		overflow: auto;
 		color: #cccccc;
+	}
+
+	#command-input {
+		background-color: rgba(0, 0, 0, 0.7);
+		border: 1px solid black;
+		color: #cccccc;
+	}
+
+	#command-input:focus {
+		outline: none;
 	}
 </style>
